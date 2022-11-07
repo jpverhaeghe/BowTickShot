@@ -27,16 +27,13 @@ public class Bow : MonoBehaviour
     [SerializeField] Transform arrowInBowEnd;       // the ending point of the arrow when string is pulled back
     [SerializeField] int reloadTime = 2;            // time in seconds before reloading
 
-
-    [Header("Testing values")]
-    [Range(-0.2f, 0.2f)]
-    [SerializeField] float drawTorque = 0;
-
     [Header("Game Information")]
     [SerializeField] GameManager gameManager;
 
+    [Header("Audio Clips for Bow")]
+    [SerializeField] AudioSource bowShooting;
+
     // Private variables used in this script
-    private Vector3 arrowInBowStartOffset;          // the starting position offset of the arrow in the bow for resetting
     private float stringDrawTime = 0f;              // the draw time that will be used as a multiplier for force on the arrow
 
     /// <summary>
@@ -48,9 +45,6 @@ public class Bow : MonoBehaviour
         bowString.SetPosition(0, bowStringTop.position);
         bowString.SetPosition(1, bowStringStart.position);
         bowString.SetPosition(2, bowStringBottom.position);
-
-        // get the offset of the arrow from the string for use later
-        arrowInBowStartOffset = arrowInBow.transform.position - bowStringStart.position;
 
     } // end Start
 
@@ -83,6 +77,7 @@ public class Bow : MonoBehaviour
 
             // shoot the arrow with a force based on the string draw time (using a prefab)
             Arrow arrowFired = Instantiate(arrowProjectile, arrowInBow.transform.position, arrowInBow.transform.rotation).GetComponent<Arrow>();
+            bowShooting.Play();
 
             if (stringDrawTime < maxStringDrawTime)
             {
@@ -92,10 +87,6 @@ public class Bow : MonoBehaviour
             {
                 arrowFired.drawForce = maxStringDrawTime;
             }
-
-            // TODO: Add angular velocity based on some method of input for trick shots!
-            arrowFired.drawTorque = drawTorque;
-
 
             // reload the arrow after a time
             Invoke("ReloadArrow", reloadTime);
