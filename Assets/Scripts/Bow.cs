@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+// Referencing the following website: Creating a Bow and Arrow experience for VR: Part 1 (immersive-insiders.com) - by Ashray Pai
+// Most code is original based on the site as the site is for a VR bow with pulling back using touch controllers
+// I've added the string in a different way (still using a line renderer - thanks Alan!) and adjusted pull strength based on time
 public class Bow : MonoBehaviour
 {
     // Constant values used in this script
@@ -108,6 +111,7 @@ public class Bow : MonoBehaviour
             // animate the draw of the string by moving the middle point of the bow from the starting position by the draw time
             // calculate the pull strength so far, using the time for draw divided by the maximum seconds of draw so we don't go over 1
 
+            // Helped here by Alan Zucconi
             // stringDrawTime: [0, maxStringDrawTime]
             // pullValue:       [0, 1]
             float pullValue = Mathf.Clamp01(stringDrawTime / maxStringDrawTime);

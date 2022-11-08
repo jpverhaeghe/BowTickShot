@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Reference for adding the score text particle coming out of the camera is from this Unity forum post:
+// Is it possible to create Text string particles? - Unity Answers – answer by LiloE
+// There is a bug with the particle seeing the other camera inside it that I have yet to figure out.
 public class GameManager : MonoBehaviour
 {
     // Wall Constants
@@ -42,6 +45,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;     // the link to the text on the UI so we can update it
     [SerializeField] TextMeshProUGUI arrowText;     // the link to the text on the UI so we can update it
     [SerializeField] TextMeshProUGUI highScoreText; // the link to the text on the end screen so we can update it
+
+    [Header("In Game Music")]
+    [SerializeField] AudioSource backgroundMusic;
 
     // Private variables used in this script
     private Vector3 floorSize;                      // used to keep track of the floor area to place items in the world
@@ -87,6 +93,9 @@ public class GameManager : MonoBehaviour
         UpdateScore(0);
         UpdateArrows(0);
 
+        // start the music
+        backgroundMusic.Play();
+
         gameInProgress = true;
     }
 
@@ -103,6 +112,9 @@ public class GameManager : MonoBehaviour
 
         // update the high score text
         highScoreText.text = score + " points";
+
+        // stop the music
+        backgroundMusic.Stop();
 
         // starting a coroutine to put a delay in so game over screen doesn't seem too abrupt
         StartCoroutine("DelayEnd");
