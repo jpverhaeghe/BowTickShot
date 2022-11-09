@@ -6,7 +6,7 @@ public class Arrow : MonoBehaviour
 {
     // Constant values used in this script
     public const float DIST_TO_ARROW_PICKUP = 0.5f; // the min distance for a player to pick up the arrow to get it back
-    public const int ARROW_LIFE_SPAN = 5;           // life span of an arrow in seconds before it is removed from game
+    public const int ARROW_LIFE_SPAN = 10;          // life span of an arrow in seconds before it is removed from game
 
     // Public variables used in this script
     public float drawForce = 0f;                    // force of the drawn bow to impact arrow flight

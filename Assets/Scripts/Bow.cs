@@ -38,6 +38,7 @@ public class Bow : MonoBehaviour
 
     // Private variables used in this script
     private float stringDrawTime = 0f;              // the draw time that will be used as a multiplier for force on the arrow
+    private float drawTimeDivisor = 1.5f;
 
     /// <summary>
     /// Start is called before the first frame update
@@ -84,11 +85,11 @@ public class Bow : MonoBehaviour
 
             if (stringDrawTime < maxStringDrawTime)
             {
-                arrowFired.drawForce = stringDrawTime;
+                arrowFired.drawForce = (stringDrawTime / drawTimeDivisor);
             }
             else
             {
-                arrowFired.drawForce = maxStringDrawTime;
+                arrowFired.drawForce = (maxStringDrawTime / drawTimeDivisor);
             }
 
             // remove the arrow from the quiver
