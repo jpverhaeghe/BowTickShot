@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     // Public variables used in this script
     public bool gameInProgress = false;             // tells elements of the game that game has started
     public int balloonInPlay = 0;                   // tells the game manager how many balloons are in play
+    public int numArrows = 20;                     // keeps track of the number of arrows the player has, if 0 game is over
 
     // Serialized variables to show in the Unity editor but not public to other scripts
     [Header("Wall generation data")]
@@ -52,7 +53,6 @@ public class GameManager : MonoBehaviour
     // Private variables used in this script
     private Vector3 floorSize;                      // used to keep track of the floor area to place items in the world
     private int score = 0;                          // keeps track of player score - display at end
-    private int numArrows = 20;                     // keeps track of the number of arrows the player has, if 0 game is over
 
     /// <summary>
     /// Start is called before the first frame update
@@ -160,12 +160,6 @@ public class GameManager : MonoBehaviour
         // add the number of arrows and update the text on screen
         numArrows += numToAdd;
         arrowText.text = "Arrows Left: " + numArrows.ToString();
-
-        // if the player runs out of arrows, game is over
-        if (numArrows <= 0)
-        {
-            EndGame();
-        }
 
     } // end UpdateArrows
 

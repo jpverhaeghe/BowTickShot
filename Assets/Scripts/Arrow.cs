@@ -66,7 +66,7 @@ public class Arrow : MonoBehaviour
 
             // Note: this will cause a bug if the timing is just right when the invoked method is called and then this one.
             // Using invoke will stop this a bit and allow the sound effect to play
-            Invoke("DestroyArrow", 1);
+            Invoke("DestroyArrow", 0.5f);
         }
 
     } // end Update
@@ -76,10 +76,13 @@ public class Arrow : MonoBehaviour
     /// </summary>
     private void DestroyArrow()
     {
-        Destroy(gameObject);
+        // if the player runs out of arrows, game is over
+        if (gameManager.numArrows <= 0)
+        {
+            gameManager.EndGame();
+        }
 
-        // remove one from the arrows
-        gameManager.UpdateArrows(-1);
+        Destroy(gameObject);
 
     } // end DestroyArrow
 

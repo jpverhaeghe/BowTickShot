@@ -49930,7 +49930,7 @@ MonoBehaviour:
   arrowProjectile: {fileID: 2790929887267890198, guid: 78490231f2064d74e9656adc52773cb6, type: 3}
   arrowInBowStart: {fileID: 173893818}
   arrowInBowEnd: {fileID: 764423784}
-  reloadTime: 2
+  reloadTime: 1
   gameManager: {fileID: 1852543946}
   bowShooting: {fileID: 1562349724}
 --- !u!82 &1562349724
@@ -50516,6 +50516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInProgress: 0
   balloonInPlay: 0
+  numArrows: 20
   floor: {fileID: 638423799}
   wallObjects:
   - {fileID: 3781800445050580624, guid: f612b2924525a78418c9bb15276a2252, type: 3}

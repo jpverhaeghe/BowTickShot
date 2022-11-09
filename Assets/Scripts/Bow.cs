@@ -28,7 +28,7 @@ public class Bow : MonoBehaviour
     [SerializeField] GameObject arrowProjectile;    // the game object that gets fired when the player releases the mouse
     [SerializeField] Transform arrowInBowStart;     // the starting point of the arrow in the bow
     [SerializeField] Transform arrowInBowEnd;       // the ending point of the arrow when string is pulled back
-    [SerializeField] int reloadTime = 2;            // time in seconds before reloading
+    [SerializeField] int reloadTime = 1;            // time in seconds before reloading
 
     [Header("Game Information")]
     [SerializeField] GameManager gameManager;
@@ -91,6 +91,9 @@ public class Bow : MonoBehaviour
                 arrowFired.drawForce = maxStringDrawTime;
             }
 
+            // remove the arrow from the quiver
+            gameManager.UpdateArrows(-1);
+
             // reload the arrow after a time
             Invoke("ReloadArrow", reloadTime);
 
@@ -137,8 +140,17 @@ public class Bow : MonoBehaviour
     /// </summary>
     private void ReloadArrow()
     {
-        arrowInBow.transform.position = arrowInBowStart.position;
-        arrowInBow.SetActive(true);
+        // if there is an arrow in the quiver, reload the arrow in the bow
+        if (gameManager.numArrows > 0)
+        {
+            arrowInBow.transform.position = arrowInBowStart.position;
+            arrowInBow.SetActive(true);
+        }
+        // otherwise start a timer to check again in a bit (in case the player picks another arrow up)
+        else
+        {
+            Invoke("ReloadArrow", reloadTime);
+        }
 
     } // end ReloadArrow
 }
