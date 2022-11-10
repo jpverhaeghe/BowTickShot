@@ -92,8 +92,9 @@ public class Bow : MonoBehaviour
                 arrowFired.drawForce = (maxStringDrawTime / drawTimeDivisor);
             }
 
-            // remove the arrow from the quiver
+            // remove the arrow from the quiver and add one to the number of arrows in the world
             gameManager.UpdateArrows(-1);
+            gameManager.numArrowsFired++;
 
             // reload the arrow after a time
             Invoke("ReloadArrow", reloadTime);

@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
     // Public variables used in this script
     public bool gameInProgress = false;             // tells elements of the game that game has started
     public int balloonInPlay = 0;                   // tells the game manager how many balloons are in play
-    public int numArrows = 20;                     // keeps track of the number of arrows the player has, if 0 game is over
+    public int numArrows = 20;                      // keeps track of the number of arrows the player has
+    public int numArrowsFired = 0;                  // keeps track of the number of arrows the player has fired
 
     // Serialized variables to show in the Unity editor but not public to other scripts
     [Header("Wall generation data")]
@@ -42,16 +43,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject endMenu;            // a link to the end menu so we can turn it on
 
     [SerializeField] ParticleSystem scoreParticle;  // a particle to display the score so it is easier to see
-    [SerializeField] TextMeshProUGUI scorePartText; // the link to the particle text so we can update it
-    [SerializeField] TextMeshProUGUI scoreText;     // the link to the text on the UI so we can update it
-    [SerializeField] TextMeshProUGUI arrowText;     // the link to the text on the UI so we can update it
-    [SerializeField] TextMeshProUGUI highScoreText; // the link to the text on the end screen so we can update it
+    [SerializeField] TextMeshProUGUI scorePartText; // the link to the score particle text so we can update it
+    [SerializeField] TextMeshProUGUI scoreText;     // the link to the score text on the UI so we can update it
+    [SerializeField] TextMeshProUGUI arrowText;     // the link to the arrow text on the UI so we can update it
+    [SerializeField] TextMeshProUGUI lastScoreText; // the link to the last score text on the end screen so we can update it
+    [SerializeField] TextMeshProUGUI highScoreText; // the link to the high score text on the end screen so we can update it
 
     [Header("In Game Music")]
     [SerializeField] AudioSource backgroundMusic;
 
     // Private variables used in this script
     private Vector3 floorSize;                      // used to keep track of the floor area to place items in the world
+    private int highScore = 0;                      // keeps track of player's highest score for this play session
     private int score = 0;                          // keeps track of player score - display at end
 
     /// <summary>
@@ -65,6 +68,12 @@ public class GameManager : MonoBehaviour
         // set up the walls in the arena (doing this here as it should be behind the canvas and want it to happen while 
         // the player is making the choice to play (similar to a load screen) - in case it takes a minute
         CreateWalls();
+
+        // set up the high score from last time the scene was loaded
+        if (PlayerPrefs.HasKey("HighScore") )
+        {
+            highScore = PlayerPrefs.GetInt("HighScore");
+        }
 
     } // end Start
 
@@ -110,8 +119,18 @@ public class GameManager : MonoBehaviour
         // make it so the player can't move
         player.SetActive(false);
 
-        // update the high score text
-        highScoreText.text = score + " points";
+        // update the last score text
+        lastScoreText.text = score + " points";
+
+        // update the high score if the last point value was more
+        if (score > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            highScore = score;
+        }
+
+        // now update the high score text for the end screen
+        highScoreText.text = "Highest score so far is:\n" + highScore + " points";
 
         // stop the music
         backgroundMusic.Stop();

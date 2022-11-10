@@ -5,7 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     // Constant values used in this script
-    public const float DIST_TO_ARROW_PICKUP = 0.5f; // the min distance for a player to pick up the arrow to get it back
+    public const float DIST_TO_ARROW_PICKUP = 1.0f; // the min distance for a player to pick up the arrow to get it back
     public const int ARROW_LIFE_SPAN = 10;          // life span of an arrow in seconds before it is removed from game
 
     // Public variables used in this script
@@ -76,8 +76,11 @@ public class Arrow : MonoBehaviour
     /// </summary>
     private void DestroyArrow()
     {
-        // if the player runs out of arrows, game is over
-        if (gameManager.numArrows <= 0)
+        // remove this arrow from the game manager world count
+        gameManager.numArrowsFired--;
+
+        // if the player is out of arrows in the quiver and there are none in the world, game is over
+        if ( (gameManager.numArrows <= 0) && (gameManager.numArrowsFired <= 0) )
         {
             gameManager.EndGame();
         }
